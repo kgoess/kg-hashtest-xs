@@ -1,0 +1,14 @@
+Changes
+Hashtest.xs
+Makefile.PL
+MANIFEST
+ppport.h
+README
+t/kg-Hashtest.t
+fallback/const-c.inc
+fallback/const-xs.inc
+lib/kg/Hashtest.pm
+hashtestlib/Makefile.PL
+hashtestlib/hashtestlib.c
+hashtestlib/hashtestlib.h
+
