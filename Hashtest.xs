@@ -49,7 +49,7 @@ get_area_for_id(id)
         valSV = newSVpv(thisArea->description, strlen(thisArea->description));
         stored = hv_store(areaHash, "description", strlen("description"), valSV, 0);
 
-    RETVAL = areaHash;
+        RETVAL = areaHash;
     OUTPUT:
         RETVAL
 
