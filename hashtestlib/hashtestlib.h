@@ -9,5 +9,5 @@ typedef struct
 } Area;
 
 extern Area * get_area_for_id(int);
-extern char * get_area_name_for_id(int);
+extern const char * get_area_name_for_id(int);
 void print_twos_name(int);

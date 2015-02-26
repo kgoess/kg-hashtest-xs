@@ -16,7 +16,7 @@ SV *
 get_area_name_for_id(id)
        int             id
     CODE:
-        char * name = get_area_name_for_id(id);
+        const char * name = get_area_name_for_id(id);
         if (name == NULL){
             XSRETURN_UNDEF;
         }
@@ -25,12 +25,15 @@ get_area_name_for_id(id)
     OUTPUT:
        RETVAL
 
-HV *
+SV *
 get_area_for_id(id)
         int id
     CODE:
         SV * valSV;
         SV ** stored;
+        SV * blessed_area;
+        SV * hashRef;
+        HV * packageGlob;
         HV * areaHash = newHV();
         Area * thisArea = get_area_for_id(id);
 
@@ -38,18 +41,25 @@ get_area_for_id(id)
             XSRETURN_UNDEF;
         }
 
+        // store the name
         valSV = newSVpv(thisArea->name, strlen(thisArea->name));
         stored = hv_store(areaHash, "name", strlen("name"), valSV, 0);
 
+        // store the id
         // what if the strlen of the id doesn't fit in an int?
         valSV = newSViv(thisArea->id);
         stored = hv_store(areaHash, "id", strlen("id"), valSV, 0);
 
-
+        // store the description
         valSV = newSVpv(thisArea->description, strlen(thisArea->description));
         stored = hv_store(areaHash, "description", strlen("description"), valSV, 0);
 
-        RETVAL = areaHash;
+        // bless it into a package
+        hashRef = newRV_noinc((SV*)areaHash);
+        packageGlob = gv_stashpv("kg::Area", GV_ADD);
+        blessed_area = sv_bless(hashRef, packageGlob);
+
+        RETVAL = blessed_area;
     OUTPUT:
         RETVAL
 
